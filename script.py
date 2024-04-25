@@ -12,10 +12,15 @@ cursor = cnx.cursor()
 with open("scripts/creation_script.sql", "r") as file:
     sql = file.read()
 
-for statement in sql.split(";"):
-    if statement.strip() != "":
-        cursor.execute(statement)
-        cnx.commit()
+
+def execute_sql(sql, cursor):
+    for statement in sql.split(";"):
+        if statement.strip() != "":
+            cursor.execute(statement)
+            cnx.commit()
+
+
+execute_sql(sql, cursor)
 
 base_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -36,10 +41,12 @@ sql = sql.replace(
 with open("scripts/import_script.sql", "r") as file:
     sql = file.read()
 
-for statement in sql.split(";"):
-    if statement.strip() != "":
-        cursor.execute(statement)
-        cnx.commit()
+execute_sql(sql, cursor)
+
+with open("scripts/sanitize_script.sql", "r") as file:
+    sql = file.read()
+
+execute_sql(sql, cursor)
 
 cursor.close()
 cnx.close()

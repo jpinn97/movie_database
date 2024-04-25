@@ -24,3 +24,8 @@ xampp-install:
 	wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/8.2.12/xampp-linux-x64-8.2.12-0-installer.run
 	chmod +x xampp-linux-x64-8.2.12-0-installer.run
 	sudo ./xampp-linux-x64-8.2.12-0-installer.run
+
+full-setup:
+	make xampp-install
+	python3 script.py
+	sudo cp index.php /opt/lampp/htdocs
