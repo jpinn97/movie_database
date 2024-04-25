@@ -9,10 +9,12 @@ cnx = mysql.connector.connect(
 cursor = cnx.cursor()
 
 with open("scripts/creation_script.sql", "r") as file:
-   sql = file.read()#
+    sql = file.read()
+
 for statement in sql.split(";"):
-   if statement.strip() != "":
-       cursor.execute(statement)
+    if statement.strip() != "":
+        cursor.execute(statement)
+        cnx.commit()
 
 with open("scripts/import_script.sql", "r") as file:
     sql = file.read()
@@ -20,9 +22,7 @@ with open("scripts/import_script.sql", "r") as file:
 for statement in sql.split(";"):
     if statement.strip() != "":
         cursor.execute(statement)
-
-# Close the cursor and connection
-cnx.commit()
+        cnx.commit()
 
 cursor.close()
 cnx.close()
