@@ -29,3 +29,5 @@ full-setup:
 	make xampp-install
 	python3 script.py
 	sudo cp index.php /opt/lampp/htdocs
+	sudo mkdir /opt/lampp/htdocs/php
+	sudo cp php/* /opt/lampp/htdocs/php
