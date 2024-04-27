@@ -28,12 +28,17 @@ install:
 
 full-setup:
 # xampp/lamp
-	@if [ ! -d "/opt/lampp" ]; then \
+	if [ ! -d "/opt/lampp" ]; then \
+		make pip-install; \
         make install; \
 	fi
-	python3 xampp-script.py
 	sudo cp index.php /opt/lampp/htdocs
 	sudo mkdir -p /opt/lampp/htdocs/php
 	sudo cp php/* /opt/lampp/htdocs/php
+	sudo /opt/lampp/lampp start
+	python3 xampp-script.py
+#	python3 mongodb-script.py
 # mongodb
-	python3 mongodb-script.py
+	
+start:
+	sudo /opt/lampp/lampp start
