@@ -1,19 +1,43 @@
-import json
-from pymongo import MongoClient
+# Connect to MongoDB (update the connection string as needed)
+import subprocess
 
-# Create a client
-client = MongoClient("mongodb://localhost:27017/")
+command = [
+    "mongoimport",
+    "--db",
+    "movies_database",
+    "--collection",
+    "internet_user",
+    "--file",
+    "json/Internet_user.json",
+    "--jsonArray",
+]
 
-# Connect to your database
-db = client["movies_database"]
+subprocess.run(command, check=True)
 
-collection = db["movies"]
+print("Internet User Documents inserted successfully.")
 
-with open("json/movies_database.json", "r") as file:
-    file_data = json.load(file)
+command = [
+    "mongoimport",
+    "--db",
+    "movies_database",
+    "--collection",
+    "movie",
+    "--file",
+    "json/Movie.json",
+    "--jsonArray",
+]
 
-collection.insert_many(file_data)
+subprocess.run(command, check=True)
 
-print(collection.find_one())
-
-client.close()
+# collection = db["internet_user"]
+#
+# print("Internet User Documents inserted successfully.")
+#
+## Load the JSON file
+# with open("json/Movie_user.json", "r") as file:
+#    data = json.load(file)
+#
+## Insert the data into the collection
+# collection.insert_many(data)
+#
+# print("Movie Documents inserted successfully.")
