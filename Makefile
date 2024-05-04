@@ -23,8 +23,8 @@ full-setup:
 	sudo cp php/* /opt/lampp/htdocs/php
 	sudo /opt/lampp/lampp start
 	python3 xampp-script.py
-#	python3 mongodb-script.py
-# mongodb
+	python3 mongodb-script.py
 	
 start:
 	sudo /opt/lampp/lampp start
+	sudo systemctl start mongod
