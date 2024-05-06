@@ -1,6 +1,6 @@
 pip-install:
 	@echo "Installing python packages..."
-	pip install mysql-connector-python
+	pip install -r requirements.txt
 
 pip-clean:
 	@echo "Removing python packages..."
