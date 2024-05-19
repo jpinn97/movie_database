@@ -17,11 +17,10 @@ try {
     echo "<ul>";
     // Iterate over the query results
     foreach ($result as $data) {
-        // Ensure that '_id' and 'count' are present in the document
-        $year = $data['_id'] ?? 'Unknown Year';
-        $count = $data['count'] ?? 'No Count';
+        
+        $year = $data['_id'];
+        $count = $data['count'];
 
-        // Escape the output to prevent XSS
         echo "<li>Year: " . htmlspecialchars($year) . " - Count: " . htmlspecialchars($count) . "</li>";
     }
     echo "</ul>";
@@ -29,4 +28,3 @@ try {
     // Output error message if something goes wrong
     echo "Error: " . htmlspecialchars($e->getMessage());
 }
-?>

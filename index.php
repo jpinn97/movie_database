@@ -34,13 +34,13 @@
         </button>
 
         <!-- MongoDB Query Buttons -->
-        <button type="button" hx-post="/php/mongo_query_1.php" hx-trigger="click" hx-target="#result" hx-vals='{"username": document.getElementById("username").value, "password": document.getElementById("password").value}'>
+        <button type="button" hx-post="/php/m_query_1.php" hx-trigger="click" hx-target="#result">
             MongoDB Query 1
         </button>
-        <button type="button" hx-post="/php/mongo_query_2.php" hx-trigger="click" hx-target="#result" hx-vals='{"username": document.getElementById("username").value, "password": document.getElementById("password").value}'>
+        <button type="button" hx-post="/php/m_query_2.php" hx-trigger="click" hx-target="#result">
             MongoDB Query 2
         </button>
-        <button type="button" hx-post="/php/mongo_query_3.php" hx-trigger="click" hx-target="#result" hx-vals='{"username": document.getElementById("username").value, "password": document.getElementById("password").value}'>
+        <button type="button" hx-post="/php/m_query_3.php" hx-trigger="click" hx-target="#result">
             MongoDB Query 3
         </button>
     </form>

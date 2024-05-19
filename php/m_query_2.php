@@ -1,5 +1,5 @@
 <?php
-require_once 'vendor/autoload.php'; // Ensure this path is correct
+require_once 'vendor/autoload.php';
 
 
 ini_set('display_errors', 1);
@@ -16,14 +16,12 @@ try {
     echo "<ul>";
     // Iterate over the query results
     foreach ($result as $entry) {
-        // Ensure that 'name' and 'email' fields exist in the documents
-        $name = $entry['name'] ?? 'No name';
-        $email = $entry['email'] ?? 'No email';
-        echo "<li>" . htmlspecialchars($name) . " - " . htmlspecialchars($email) . "</li>";
+        $name = $entry['name'];
+        $email = $entry['email'];
+        echo "<li>" . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . " - " . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . "</li>";
     }
     echo "</ul>";
 } catch (Exception $e) {
     // Error handling
     echo "Error: " . htmlspecialchars($e->getMessage());
 }
-?>

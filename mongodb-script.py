@@ -34,3 +34,20 @@ command = [
 ]
 subprocess.run(command, check=True)
 print("Movie Documents inserted successfully.")
+
+pipeline = [
+    {
+        "$group": {
+            "_id": { "$year": "$release_date" },
+            "count": { "$sum": 1 }
+        }
+    },
+    {
+        "$sort": { "_id": 1 }
+    }
+]
+
+# Create the view
+db.command("create", "movies_by_year_view", viewOn="movies", pipeline=pipeline)
+
+print("View created successfully")
