@@ -11,7 +11,15 @@ install:
 	chmod +x xampp-linux-x64-8.2.12-0-installer.run
 	sudo ./xampp-linux-x64-8.2.12-0-installer.run
 	sudo apt-get install -y php
+	sudo apt-get install -y php-dev
+	sudo apt-get install -y php-pear
+	sudo pecl update-channels
+	sudo yes '' | sudo /opt/lampp/bin/pecl install mongodb
 	sudo apt-get install -y mongodb-org
+	sudo apt-get install -y composer
+	echo "extension=mongodb.so" | sudo tee -a /opt/lampp/etc/php.ini
+	echo "extension=mongodb.so" | sudo tee -a /etc/php/8.1/cli/php.ini
+	cd /opt/lampp/htdocs && sudo composer require mongodb/mongodb --ignore-platform-reqs	
 
 full-setup:
 # xampp/lamp

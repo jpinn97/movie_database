@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php'; // Adjust the path to the autoload file
 
-use MongoDB\Client;
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -85,8 +83,6 @@ try {
         echo "</ul></li>";
     }
     echo "</ul>";
-} catch (MongoDB\Driver\Exception\Exception $e) {
-    echo "MongoDB Error: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
 } catch (Exception $e) {
     echo "Error: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
 }
