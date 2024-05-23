@@ -1,3 +1,120 @@
+Movie Database Project
+=======================
+
+
+Overview
+----------
+
+This project integrates SQL and NoSQL databases to manage a movie database system. It leverages MySQL for relational data storage and MongoDB for document-oriented storage, providing a robust and scalable environment for handling complex data interactions. The project is developed using PHP and is hosted locally using XAMPP to simulate a real-world web application.
+
+### Prerequisites
+- XAMPP: Provides an Apache server, MySQL database, PHP, and Perl.
+- Conda: Required for managing Python dependencies.
+- Python 3.9+: For running Python scripts.
+- MongoDB Community Edition: For NoSQL database functionality.
+- Homebrew: Used for installing MongoDB on macOS.
+
+### Installation
+
+#### Step 1: Clone the Repository
+- Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/jpinn97/movie_database.git
+cd movie_database
+```
+
+#### Step 2: Set Up the Environment
+
+Create a Conda environment to manage Python dependencies:
+
+```bash
+conda create -n movie_env --yes
+conda config --env --add channels conda-forge
+conda config --env --set channel_priority strict
+conda install -n movie_env --file requirements.txt --yes
+```
+
+To remove the Conda environment:
+
+```bash
+conda env remove -n movie_env --yes
+```
+
+#### Install Python packages using pip:
+
+```bash
+   pip3.9 install -r requirements.txt
+```
+
+
+#### To remove installed packages:
+
+```bash
+   pip freeze | xargs pip uninstall -y
+```
+
+#### Step 3: Install XAMPP and MongoDB
+
+- Download and install XAMPP:
+
+```bash
+wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/8.2.12/xampp-linux-x64-8.2.12-0-installer.run
+chmod +x xampp-linux-x64-8.2.12-0-installer.run
+sudo ./xampp-linux-x64-8.2.12-0-installer.run
+```
+- Install MongoDB:
+
+```bash
+  brew tap mongodb/brew
+  brew install mongodb-community
+```
+
+
+#### Step 4: Full Setup
+
+Run the full setup to configure the local environment:
+
+```bash
+make full-setup
+
+```
+
+This should:
+
+- Copy PHP files to the XAMPP server directory.
+- Start the XAMPP and MongoDB services.
+- Run initial setup scripts for both databases.
+
+#### Step 5: Start the Application
+
+To start the XAMPP servers:
+
+
+```bash
+sudo /Applications/XAMPP/xamppfiles/xampp start
+```
+
+# Usage
+After starting the servers, access the application by navigating to http://localhost in your web browser. Utilize the PHP interface to interact with both MySQL and MongoDB databases, executing predefined queries or custom interactions.
+
+### Version: V001
+
+### Authors
+Jamie Pinnington
+Abdul Rashid Omeni
+
+
+## License
+Not under any license.
+
+
+## References: 
+- https://www.apachefriends.org/
+- https://conda.io/projects/conda/en/latest/user-guide/getting-started.html
+
+
+
 # MySQL and MongoDB with PHP Frontend.
 
 ## PHP
