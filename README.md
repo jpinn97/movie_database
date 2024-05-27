@@ -41,11 +41,58 @@ This will start the Apache server, MySQL and MongoDB services, it will then popu
 
 After starting the servers, access the application by navigating to http://localhost in your web browser. Utilize the PHP interface to interact with both MySQL and MongoDB databases by executing predefined queries.
 
+The default credentials are required for MySQL: username is `root` and password is empty.
+
 # MySQL and MongoDB with PHP Frontend.
 
-## PHP
-
 ## MySQL
+
+The provided dataset consisted of 5 csv files containing data for: `Artist`, `Country`, `Movie`, `Role`, and `Internet_user`. The given schema for the database:
+
+```
+Movie (movieId, title, year, genre, summary, #producerId, #countryCode)
+Country (code, name, language)
+Artist (artistId, surname, name, DOB)
+Role (#movieId, #actorId, roleName)
+Internet_user (email, surname, name, region)
+Score_movie (#email, #movieId, score)
+```
+
+A Python script performs the following tasks:
+
+- Connects to MySQL database.
+- Runs a creation_script.sql server that reads a creation_script.sql file to create the database and tables. It splits each query by the delimiter `;` and executes them. Example:
+
+```sql
+CREATE TABLE Country (
+    code CHAR(2) PRIMARY KEY,
+    name VARCHAR(255),
+    language VARCHAR(100)
+);
+```
+
+- Performs path manipulation to insert the csv files absolute location dynamically in the read SQL query.
+- Inserts the data from the csv files into the tables using the `LOAD DATA INFILE` command.
+- Executes a sanitization script to standardize the data.
+
+## Frontend
+
+The frontend consists of a simple HTML that uses HTMX to make AJAX requests to the PHP backend. It passes credentials if necessary to the predefined query that is selected by the user, which connects and retrieves the data, before displaying it in a table.
+
+The HTMX allows for a more dynamic frontend by swapping elements, without the need for a full page reload.
+
+```html
+<button
+  hx-post="/php/query_1.php"
+  hx-trigger="click"
+  hx-target="#result"
+  hx-vals='{"username": document.getElementById("username").value, "password": document.getElementById("password").value}'
+>
+  Query 1
+</button>
+```
+
+The query_1 button is pressed, which sends the username and password from the interface to the PHP query via the `hx-vals` attribute, it then swaps the content of the `#result` div with the result of the query via the `hx-target` attribute.
 
 ## MongoDB
 
@@ -90,6 +137,20 @@ sed -i 's/ISODate(\(.*\))/{"$date": \1}/g' json/Movie.json
 sed -i 's/NumberInt(\(.*\))/{"$numberInt": "\1"}/g' json/Movie.json
 sed -i 's/ObjectId(\(.*\))/{"$oid": \1}/g' json/Movie.json
 ```
+
+# Tasks
+
+Jamie(a), Rashid(b):
+
+- index.php [a]
+- query_1.php, query_2.php, query_3.php, [b]
+- m_query_1.php, m_query_2.php, m_query_3.php [a]
+- makefile [a]
+- creation_script.sql [b]
+- import_script.sql [a]
+- sanitize_script.sql [a]
+- denormalize mysql db to mongodb [a]
+- xampp/mongo py script [a]
 
 ### Version: V001
 
