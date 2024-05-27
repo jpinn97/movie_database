@@ -1,88 +1,85 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php'; // Adjust the path to the autoload file
+require_once __DIR__ . '/../vendor/autoload.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-try {
-    // Initialize MongoDB Client
-    echo "Initializing MongoDB Client...<br>";
-    $client = new MongoDB\Client("mongodb://localhost:27017");
-    echo "MongoDB Client initialized.<br>";
+// Initialize MongoDB Client
+echo "Initializing MongoDB Client...<br>";
+$client = new MongoDB\Client("mongodb://localhost:27017");
+echo "MongoDB Client initialized.<br>";
 
-    // Select the database and collection
-    echo "Selecting database and collection...<br>";
-    $collection = $client->movies_database->movies;
-    echo "Database and collection selected.<br>";
+// Select the database and collection
+echo "Selecting database and collection...<br>";
+$collection = $client->movies_database->movie;
+echo "Database and collection selected.<br>";
 
-    // Define the aggregation pipeline
-    $pipeline = [
-        [
-            '$group' => [
-                '_id' => '$genre',
-                'count' => ['$sum' => 1],
-                'movies' => [
-                    '$push' => [
-                        'title' => '$title',
-                        'year' => [
-                            '$dateToString' => [
-                                'format' => '%Y',
-                                'date' => '$year'
-                            ]
-                        ],
-                        'summary' => '$summary',
-                        'producer' => [
-                            'name' => '$producer.name',
-                            'surname' => '$producer.surname'
-                        ],
-                        'roles' => '$role'
-                    ]
+// Define the aggregation pipeline
+$pipeline = [
+    [
+        '$group' => [
+            '_id' => '$genre',
+            'count' => ['$sum' => 1],
+            'movie' => [
+                '$push' => [
+                    'title' => '$title',
+                    'year' => [
+                        '$dateToString' => [
+                            'format' => '%Y',
+                            'date' => '$year'
+                        ]
+                    ],
+                    'summary' => '$summary',
+                    'producer' => [
+                        'name' => '$producer.name',
+                        'surname' => '$producer.surname'
+                    ],
+                    'roles' => '$role'
                 ]
             ]
-        ],
-        [
-            '$sort' => ['count' => -1]
         ]
-    ];
+    ],
+    [
+        '$sort' => ['count' => -1]
+    ]
+];
 
 
-    // Perform the aggregation
-    echo "Performing aggregation...<br>";
+
+// Perform the aggregation
+echo "Performing aggregation...<br>";
+try {
     $result = $collection->aggregate($pipeline);
-    echo "Aggregation performed.<br>";
 
-    // Output the results
-    echo "<ul>";
-    foreach ($result as $doc) {
-        $genre = htmlspecialchars($doc['_id'], ENT_QUOTES, 'UTF-8');
-        $count = htmlspecialchars((string)$doc['count'], ENT_QUOTES, 'UTF-8');
-        echo "<li><strong>{$genre}</strong> ({$count} movies)";
+    echo "<h1>Movie Aggregation by Genre</h1>";
+    foreach ($result as $genre) {
+        echo "<h2>" . htmlspecialchars($genre->_id ?? 'Unknown Genre') . " (" . htmlspecialchars((string)($genre->count ?? 0)) . " movies)</h2>";
         echo "<ul>";
-        foreach ($doc['movies'] as $movie) {
-            $title = htmlspecialchars($movie['title'], ENT_QUOTES, 'UTF-8');
-            $year = htmlspecialchars($movie['year'], ENT_QUOTES, 'UTF-8');
-            $summary = htmlspecialchars($movie['summary'], ENT_QUOTES, 'UTF-8');
-            $producerName = htmlspecialchars($movie['producer']['name'], ENT_QUOTES, 'UTF-8');
-            $producerSurname = htmlspecialchars($movie['producer']['surname'], ENT_QUOTES, 'UTF-8');
-
+        foreach ($genre->movie as $movie) {
             echo "<li>";
-            echo "<strong>Title:</strong> {$title}<br>";
-            echo "<strong>Year:</strong> {$year}<br>";
-            echo "<strong>Summary:</strong> {$summary}<br>";
-            echo "<strong>Producer:</strong> {$producerName} {$producerSurname}<br>";
-            echo "<strong>Roles:</strong><ul>";
+            // Check and handle 'title' and other fields similarly if needed
+            echo "<strong>Title:</strong> " . htmlspecialchars($movie['title'] ?? 'Unknown Title') . "<br>";
+            echo "<strong>Year:</strong> " . htmlspecialchars($movie['year'] ?? 'Unknown Year') . "<br>";
+            echo "<strong>Summary:</strong> " . htmlspecialchars($movie['summary'] ?? 'No Summary Available') . "<br>";
+
+            // Check if producer details are available and handle nulls
+            $producerName = $movie['producer']['name'] ?? 'Unknown Name';
+            $producerSurname = $movie['producer']['surname'] ?? 'Unknown Surname';
+            echo "<strong>Producer:</strong> " . htmlspecialchars($producerName) . " " . htmlspecialchars($producerSurname) . "<br>";
+
+            echo "<ul>";
             foreach ($movie['roles'] as $role) {
-                $roleName = htmlspecialchars($role['roleName'], ENT_QUOTES, 'UTF-8');
-                $artistName = htmlspecialchars($role['artist']['name'], ENT_QUOTES, 'UTF-8');
-                $artistSurname = htmlspecialchars($role['artist']['surname'], ENT_QUOTES, 'UTF-8');
-                echo "<li>{$roleName} - {$artistName} {$artistSurname}</li>";
+                $roleName = htmlspecialchars($role['roleName'] ?? 'Unknown Role');
+                $artistName = htmlspecialchars($role['artist']['name'] ?? 'Unknown Artist');
+                $artistSurname = htmlspecialchars($role['artist']['surname'] ?? 'Unknown Artist Surname');
+                echo "<li>$roleName - $artistName $artistSurname</li>";
             }
-            echo "</ul></li>";
+            echo "</ul>";
+            echo "</li>";
         }
-        echo "</ul></li>";
+        echo "</ul>";
     }
-    echo "</ul>";
 } catch (Exception $e) {
     echo "Error: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
 }

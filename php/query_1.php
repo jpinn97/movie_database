@@ -1,13 +1,12 @@
 <?php
-// Include the database connection file
-include 'db.php';
 
-header('Content-Type: text/html; charset=utf-8'); // to ensure proper content type is set for HTML
+$servername = "localhost";
+$username = $_POST['username'];
+$password = $_POST['password'];
+$dbname = "movies_database";
 
-// Set the year threshold to 2000
 $year = 2000;
 
-// Try to establish a database connection
 try {
     $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -22,7 +21,7 @@ try {
         throw new Exception("Failed to prepare statement: " . $conn->error);
     }
 
-    $stmt->bind_param("i", $year); // 'i' specifies the variable type is integer
+    $stmt->bind_param("i", $year);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -38,8 +37,7 @@ try {
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
 } finally {
-    if (isset($conn)) { // Check if $conn is set before calling close
+    if (isset($conn)) {
         $conn->close();
     }
 }
-?>

@@ -1,11 +1,11 @@
 <?php
-// Include the database connection file
-include 'db.php';
 
-header('Content-Type: text/html; charset=utf-8'); // Ensure proper content type is set for HTML
+$servername = "localhost";
+$username = $_POST['username'];
+$password = $_POST['password'];
+$dbname = "movies_database";
 
 try {
-    // Establish  database connection
     $conn = new mysqli($servername, $username, $password, $dbname);
 
     // Check connection
@@ -13,13 +13,11 @@ try {
         throw new Exception("Connection failed: " . $conn->connect_error);
     }
 
-    // SQL Query to select all movies' titles, genres, and years
     $query = "SELECT title, genre, year FROM Movie";
 
     // Execute the query
     $result = $conn->query($query);
 
-    // Check if any rows are returned
     if ($result->num_rows > 0) {
         // Output data of each row
         while ($row = $result->fetch_assoc()) {
@@ -29,12 +27,9 @@ try {
         echo "0 results";
     }
 } catch (Exception $e) {
-    // Handle exceptions
     echo "Error: " . $e->getMessage();
 } finally {
-    // Close the database connection
     if (isset($conn)) {
         $conn->close();
     }
 }
-?>

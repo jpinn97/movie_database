@@ -4,7 +4,7 @@ pip-install:
 
 pip-clean:
 	@echo "Removing python packages..."
-	pip freeze | xargs pip uninstall -y
+	pip uninstall -r requirements.txt
 
 install:
 	wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/8.2.12/xampp-linux-x64-8.2.12-0-installer.run
