@@ -1,5 +1,7 @@
 # Movie Database Project
 
+**_RASHID OMENI WILL SUBMIT THIS DOCUMENT AGAIN WITH THE VIDEO LINK ATTACHED AS THE FINAL VERSION._**
+
 ## Overview
 
 This project integrates SQL and NoSQL databases to manage a movie database system. It leverages MySQL for relational data storage and MongoDB for document-oriented storage, providing a robust and scalable environment for handling complex data interactions.
@@ -100,11 +102,11 @@ Studio3t is a GUI for MongoDB that can be used to migrate data from MySQL to Mon
 
 A connection is made to our current MySQL implementation, as well as our target MongoDB instance. The authentication information, hostname and ports are specified. We can then use the import wizard to migrate data from MySQL to MongoDB.
 
-![Studio3t](/images/image_1.png)
+![Studio3t](/home/jpinn/movie_database/images/image_1.png)
 
 We select the Movie and Internet_user tables from MySQL and click `Mappings`, where we can transform the tables into documents.
 
-![Studio3t](/images/image_2.png)
+![Studio3t](/home/jpinn/movie_database/images/image_2.png)
 
 Essentially, a minimal no-code approach is taken to transform the tables into documents. Moving from a relational database to a document-orientated database requires denormalization. Information that was previously stored across multiple tables is now stored in as few objects as possible, this is because to get all the information we need, we would have to perform multiple joins in a relational database.
 
@@ -118,7 +120,7 @@ For instance, after visually inspecting the dataset, we look at the database sch
 
 A movie has a country, a producer and a list of roles (characters) played by artists. By doing so, we've encapsulated the data that into a single document, which needn't change often, this decreases the number of write operations, as well as the number of queries required to get the data we need.
 
-![Studio3t](/images/image_3.png)
+![Studio3t](/home/jpinn/movie_database/images/image_3.png)
 
 The `Internet_user` and `Score_movie` table are moved into their own collection. Given the nature of the data, the `movie` documents are unlikely to change often. Taking into account that amount of internet user ratings are variable, and the document size limit of MongoDB, there are methods to handle this, but we needn't write endless queries to a `movie` document to update the ratings. We can simply update the `Internet_user` and `Score_movie` documents, and query the `movieId` to get the ratings. This allows us to maintain maximum read operations to the `movie` collection.
 
@@ -137,6 +139,12 @@ sed -i 's/ISODate(\(.*\))/{"$date": \1}/g' json/Movie.json
 sed -i 's/NumberInt(\(.*\))/{"$numberInt": "\1"}/g' json/Movie.json
 sed -i 's/ObjectId(\(.*\))/{"$oid": \1}/g' json/Movie.json
 ```
+
+# Conclusion
+
+The decision between NoSQL and SQL databases hinges on the specific requirements of each application, such as data structure, scalability, performance, and transactional reliability. By supporting ACID (Atomicity, Consistency, Isolation, Durability), SQL databases excel in environments where structured data integrity and complex querying capabilities are paramount, making them suitable for applications that involve complex transactions and require precise data consistency.
+
+On the other hand, NoSQL databases offer flexibility, scalability, and performance efficiency, especially beneficial for handling large volumes of diverse data types and for applications that need rapid scaling. Ultimately, the choice is not strictly one or the other; many modern applications benefit from a hybrid approach that utilizes the strengths of both NoSQL and SQL technologies to meet their comprehensive data management needs.
 
 # Tasks
 
@@ -158,6 +166,14 @@ Jamie(a), Rashid(b):
 
 Jamie Pinnington
 Abdul Rashid Omeni
+
+### GitHub
+
+https://github.com/jpinn97/movie_database
+
+### Video
+
+_PLACEHOLDER_
 
 ## License
 
